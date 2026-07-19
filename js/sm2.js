@@ -26,11 +26,18 @@ function processReview(card, quality) {
   if (quality < 3) {
     // Failed recall — reset
     repetition = 0;
-    interval = 1;
+    // Again = review Now (0 days), Hard = 1 day
+    interval = quality === 0 ? 0 : 1;
   } else {
     // Successful recall
     if (repetition === 0) {
-      interval = 1;
+      if (quality === 5) {
+        interval = 4; // Easy on new card
+      } else if (quality === 3) {
+        interval = 2; // Good on new card
+      } else {
+        interval = 1;
+      }
     } else if (repetition === 1) {
       interval = 6;
     } else {
